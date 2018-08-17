@@ -23,16 +23,23 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 	double * da = new double [m];
 
 	bool convergence = false; // convergence criterion
+	// presets
+
+	double loss = 0.0;
+	// set up S and f
+
+	for (int i = 0; i < n; i++) {
+		f[i] = (*model)(x[i],npars,a);
+		loss += (y[i]-f[i])*(y[i]-f[i]);
+		for (int k = 0; k < m; k++) S[i][k] = Sensitivity(x[i],k,npars,a,(*model));
+		cout << f[i] <<  endl;
+	}
+	cout << "loss = " << loss << endl;
+	return;
+	
 
 	for (int it = 0; it < NSTEP; it++) {
-		// set up S and f
-		for (int k = 0; k < m; k++) {
-			for (int i = 0; i < n; i++) {
-				S[i][k] = Sensitivity(x[i],k,npars,a,(*model));
-				f[i] = (*model)(x[i],npars,a);
-				//cout << f[i] <<  endl;
-			}
-		}
+	
 
 		// set up H and b
 		for (int k = 0; k < m; k++) {
@@ -56,7 +63,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 		PrintPointerArray("da = ",da,npars);
 		// convergence criterion
 		double absda = 0.0;
-		
+
 		// update a
 		for (int k = 0; k < m; k++) {
 			absda += da[k]*da[k];
