@@ -17,14 +17,18 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 	double ** H = new double * [m];
 	for (int i = 0; i < m; i++) H[i] = new double [m];
 
+	double * da = new double [m]; // update of parameters
+	double * b = new double [m]; // lhs of da equation = S^t (y-f)
+	double * f = new double [n]; // model prediction
+
 	double lambda = lambda_initial*1.0;
 
 	for (int it = 0; it < NSTEP; it++) {
 		double loss = 0.0;
 		for (int i = 0; i < n; i++) {
 			double xi = x[i];
-			double fi = (*model)(xi,npars,a);
-			loss += (xi-fi)*(xi-fi);
+			f[i] = (*model)(xi,npars,a);
+			loss += (xi-f[i])*(xi-f[i]);
 			for (int k = 0; k < m; k++) {
 				S[i][k] = Sensitivity(xi,k,npars,a,(*model));
 			}
@@ -40,7 +44,14 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 				H[l][k] = H[k][l]*1.0;
 				if (k==l) H[k][l] *= (1.0 + lambda);
 			}
+			
+			for (int i = 0; i < n; i++) {
+				b[k] += S[i][k]*(y[i]-f[i]);
+			}
 		}
+
+		//symsolve(m,da,Hprime,)
+
 
 		return;
 
@@ -53,4 +64,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 	// memory deallocation
 	for (int i = 0; i < n; i++) delete [] S;
 	for (int i = 0; i < m; i++) delete [] H;
+	delete [] da;
+	delete [] b;
+	delete [] f;
 }
