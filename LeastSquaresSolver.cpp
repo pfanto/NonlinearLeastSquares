@@ -22,7 +22,16 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 			for (int k = 0; k < m; k++) {
 				S[i][k] = Sensitivity(xi,k,npars,a,(*model));
 			}
-			PrintPointerArray("",S[i],m);
+			//PrintPointerArray("",S[i],m);
+		}
+		// set up Hessian matrix
+		for (int k = 0; k < m; k++) {
+			for (int l = k; l < m; l++) {
+				for (int i = 0; i < n; i++) {
+					H[k][l] += S[i][k]*S[i][l];
+				}
+				H[l][k] = H[k][l]*1.0;
+			}
 		}
 		return;
 
