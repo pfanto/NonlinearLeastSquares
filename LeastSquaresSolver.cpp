@@ -20,13 +20,17 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 	double lambda = lambda_initial*1.0;
 
 	for (int it = 0; it < NSTEP; it++) {
+		double loss = 0.0;
 		for (int i = 0; i < n; i++) {
 			double xi = x[i];
+			double fi = (*model)(xi,npars,a);
+			loss += (xi-fi)*(xi-fi);
 			for (int k = 0; k < m; k++) {
 				S[i][k] = Sensitivity(xi,k,npars,a,(*model));
 			}
 			//PrintPointerArray("",S[i],m);
 		}
+		cout << "loss = " << loss << endl;
 		// set up Hessian matrix
 		for (int k = 0; k < m; k++) {
 			for (int l = k; l < m; l++) {
@@ -37,7 +41,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 				if (k==l) H[k][l] *= (1.0 + lambda);
 			}
 		}
-		
+
 		return;
 
 
