@@ -10,6 +10,7 @@ using namespace std;
 #include "functions.hpp"
 #include "writeout.hpp"
 #include "Sensitivity.hpp"
+#include "LeastSquaresSolver.hpp"
 
 int main(void);
 

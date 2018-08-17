@@ -1,7 +1,7 @@
 CPP = g++
 RM = rm
 PROGRAM = test
-PROGOBJS = test.o functions.o writeout.o Sensitivity.o
+PROGOBJS = test.o functions.o writeout.o Sensitivity.o LeastSquaresSolver.o
 
 all: $(PROGRAM)
 
@@ -17,4 +17,6 @@ functions.o: functions.hpp
 
 writeout.o: writeout.hpp
 
-Sensitivity.o: Sensitivity.hpp
+Sensitivity.o: Sensitivity.hpp writeout.hpp
+
+LeastSquaresSolver.o: LeastSquaresSolver.hpp Sensitivity.hpp writeout.hpp
