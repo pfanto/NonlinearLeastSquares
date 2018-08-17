@@ -1,6 +1,8 @@
 #include "test.hpp"
 
 int main(void) {
+	cout.setf(ios::scientific,ios::floatfield);
+	cout << setprecision(8);
 	cout << "TEST" << endl;
 
 	const int n = 100;
