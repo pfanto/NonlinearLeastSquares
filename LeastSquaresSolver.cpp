@@ -9,7 +9,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 	cout.setf(ios::scientific,ios::floatfield);
 	cout << setprecision(8);
 
-	cout << "Least Squares Solver" << endl;
+	//cout << "Least Squares Solver" << endl;
 	// memory allocation
 	double ** S = new double * [n]; // sensitivity matrix
 	for (int i = 0; i < n; i++) S[i] = new double [m];
@@ -32,14 +32,14 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 		f[i] = (*model)(x[i],npars,a);
 		loss += (y[i]-f[i])*(y[i]-f[i]);
 		for (int k = 0; k < m; k++) S[i][k] = Sensitivity(x[i],k,npars,a,(*model));
-		cout << f[i] <<  endl;
+		//cout << f[i] <<  endl;
 	}
-	cout << "loss = " << loss << endl;
+	//cout << "loss = " << loss << endl;
 
 	double lambda = lambda_initial*1.0;
 
 	for (int it = 0; it < NSTEP; it++) {
-		cout << "lambda = " << lambda << endl;
+		//cout << "lambda = " << lambda << endl;
 		// set up H and b
 		for (int k = 0; k < m; k++) {
 			b[k] = 0.0;
@@ -57,18 +57,18 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 			H[k][k] = H[k][k] + lambda*H[k][k];
 		}
 		//cout << "b = " << b[0] << endl;
-		cout << "H = " << H[0][0] << endl;
+		//cout << "H = " << H[0][0] << endl;
 
 		// solve for da
 		symsolve(m,da,H,b);
-		PrintPointerArray("da = ",da,npars);
+		//PrintPointerArray("da = ",da,npars);
 		// convergence criterion
 		
 		// update a
 		for (int k = 0; k < m; k++) {
 			a[k] += da[k];
 		}
-		PrintPointerArray("updated a = ",a,npars);
+		//PrintPointerArray("updated a = ",a,npars);
 		/*
 		absda = sqrt(absda);
 		if (absda <= STAT) {
@@ -86,7 +86,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 			loss_new += (y[i]-f[i])*(y[i]-f[i]);
 			for (int k = 0; k < m; k++) S[i][k] = Sensitivity(x[i],k,npars,a,(*model));
 		}
-		cout << "loss_new = " << loss_new << endl;
+		//cout << "loss_new = " << loss_new << endl;
 
 		// convergence criterion
 
