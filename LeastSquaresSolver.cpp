@@ -18,11 +18,33 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 	double ** H = new double * [m];
 	for (int i = 0; i < m; i++) H[i] = new double [m];
 
+	double * f = new double [n]; // function evaluation
+	double * b = new double [m]; // rhs Hdx = b
+	double * da = new double [m];
+
+	for (int it = 0; it < NSTEP; it++) {
+		// set up S and f
+		for (int k = 0; k < m; k++) {
+			for (int i = 0; i < n; i++) {
+				S[i][k] = Sensitivity(x[i],k,npars,a,(*model));
+				f[i] = (*model)(x[i],npars,a);
+				cout << f[i] <<  endl;
+			}
+		}
+
+		// set up H
+
+		return;
+
+	}
+	
+
 	// memory deallocation
 	for (int i = 0; i < n; i++) delete [] S[i];
 	for (int i = 0; i < m; i++) delete [] H[i];
-
-	
+	delete [] f; 
+	delete [] b;
+	delete [] da;
 }
 
 
