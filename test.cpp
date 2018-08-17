@@ -23,7 +23,7 @@ int main(void) {
 	const int npars = 1;
 	const int m = 1;
 	double * a = new double [npars];
-	a[0] = 10.0;
+	a[0] = 3;
 
 	double (*func) (const double, const int, double * ) = expdecay;
 

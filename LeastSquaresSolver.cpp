@@ -1,7 +1,7 @@
 #include "LeastSquaresSolver.hpp"
 
-static const int NSTEP = 500;
-static const double STAT = 1.0e-2;
+static const int NSTEP = 5;
+static const double STATIONARY_TOL = 1.0e-2;
 static const double lambda_initial = 0.001;
 void LeastSquaresSolver(const int n, const int m, const int npars, 
 	double * x, double * y, double * a, double (*model)(const double, const int, double *)) {
@@ -35,12 +35,8 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 		cout << f[i] <<  endl;
 	}
 	cout << "loss = " << loss << endl;
-	return;
-	
 
 	for (int it = 0; it < NSTEP; it++) {
-	
-
 		// set up H and b
 		for (int k = 0; k < m; k++) {
 			b[k] = 0.0;
@@ -62,19 +58,38 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 		symsolve(m,da,H,b);
 		PrintPointerArray("da = ",da,npars);
 		// convergence criterion
-		double absda = 0.0;
-
+		
 		// update a
 		for (int k = 0; k < m; k++) {
-			absda += da[k]*da[k];
 			a[k] += da[k];
 		}
+		PrintPointerArray("updated a = ",a,npars);
+		/*
 		absda = sqrt(absda);
 		if (absda <= STAT) {
 			convergence = true;
 			break;
 		}
-		// continue
+		*/
+		
+		// calculate new loss
+		// update S and f as well
+		double loss_new = 0.0;
+		cout << "loss_new = " << loss_new << endl;
+		for (int i = 0; i < n; i++) {
+			f[i] = (*model)(x[i],npars,a);
+			loss_new += (y[i]-f[i])*(y[i]-f[i]);
+			for (int k = 0; k < m; k++) S[i][k] = Sensitivity(x[i],k,npars,a,(*model));
+		}
+
+		// convergence criterion
+		if(abs(loss_new-loss) <= STATIONARY_TOL) {
+			convergence = true;
+			break;
+		}
+
+		// update loss
+		loss = loss_new*1.0;
 
 	}
 	
