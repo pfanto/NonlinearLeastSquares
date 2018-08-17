@@ -189,12 +189,12 @@ void LeastSquaresSolverRegularized (const int n, const int m, const int npars,
 			}
 			H[k][k] += mu;
 		}
-		cout << "b = " << b[0] << endl;
-		cout << "H = " << H[0][0] << endl;
+		//cout << "b = " << b[0] << endl;
+		//cout << "H = " << H[0][0] << endl;
 
 		// solve for da
 		symsolve(m,da,H,b);
-		PrintPointerArray("da = ",da,npars);
+		//PrintPointerArray("da = ",da,npars);
 		// convergence criterion
 		
 		// update a
@@ -309,12 +309,12 @@ void LeastSquaresSolverRegularizedLevMarq (const int n, const int m, const int n
 			H[k][k] = H[k][k] + lambda*H[k][k];
 			H[k][k] += mu;
 		}
-		cout << "b = " << b[0] << endl;
-		cout << "H = " << H[0][0] << endl;
+		//cout << "b = " << b[0] << endl;
+		//cout << "H = " << H[0][0] << endl;
 
 		// solve for da
 		symsolve(m,da,H,b);
-		PrintPointerArray("da = ",da,npars);
+		//PrintPointerArray("da = ",da,npars);
 		// convergence criterion
 		
 		// update a

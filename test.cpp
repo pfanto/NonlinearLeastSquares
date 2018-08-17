@@ -23,14 +23,14 @@ int main(void) {
 	const int npars = 1;
 	const int m = 1;
 	double * a = new double [npars];
-	a[0] = 10.0;
+	a[0] = -1.0;
 
 	double (*func) (const double, const int, double * ) = expdecay;
 
 	double s00 = Sensitivity(1.0,0,npars,a,(*func));
 	cout << "s00 = " << s00 << endl;
 
-	LeastSquaresSolver(n,m,npars,x,y,a,(*func), 500, 1.0e-5, 0.001);
+	LeastSquaresSolverRegularized(n,m,npars,x,y,a,(*func), 500, 1.0e-10, 1.0);
 	PrintPointerArray("a = ",a,npars);
 
 
