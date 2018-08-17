@@ -31,6 +31,7 @@ int main(void) {
 	cout << "s00 = " << s00 << endl;
 
 	LeastSquaresSolver(n,m,npars,x,y,a,(*func));
+	PrintPointerArray("a = ",a,npars);
 
 
 
