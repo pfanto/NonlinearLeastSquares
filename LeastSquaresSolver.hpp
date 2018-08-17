@@ -12,7 +12,8 @@ using namespace std;
 #include "lapackwrapper.hpp"
 
 void LeastSquaresSolver(const int n, const int m, const int npars, 
-	double * x, double * y, double * a, double (*model)(const double, const int, double *));
+	double * x, double * y, double * a, double (*model)(const double, const int, double *),
+	const int NSTEP, const double STATIONARY_TOL, const double lambda_initial);
 
 
 #endif

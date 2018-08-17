@@ -1,14 +1,13 @@
 #include "LeastSquaresSolver.hpp"
 
-static const int NSTEP = 500;
-static const double STATIONARY_TOL = 1.0e-2;
-static const double lambda_initial = 0.001;
+
 void LeastSquaresSolver(const int n, const int m, const int npars, 
-	double * x, double * y, double * a, double (*model)(const double, const int, double *)) {
+	double * x, double * y, double * a, double (*model)(const double, const int, double *),
+	const int NSTEP, const double STATIONARY_TOL, const double lambda_initial) {
 
 	cout.setf(ios::scientific,ios::floatfield);
 	cout << setprecision(8);
-
+	//cout << NSTEP << " " << STATIONARY_TOL << " " << lambda_initial << endl;
 	//cout << "Least Squares Solver" << endl;
 	// memory allocation
 	double ** S = new double * [n]; // sensitivity matrix
