@@ -32,7 +32,20 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 			}
 		}
 
-		// set up H
+		// set up H and b
+		for (int k = 0; k < m; k++) {
+			b[k] = 0.0;
+			for (int i = 0; i < n; i++) {
+				b[k] += S[i][k]*(y[i]-f[i]);
+			}
+
+			for (int l = 0; l < m; l++) {
+				H[k][l] = 0.0;
+				for (int i = 0; i < n; i++) {
+					H[k][l] += S[i][k]*S[i][l];
+				}
+			}
+		}
 
 		return;
 
