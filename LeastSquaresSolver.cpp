@@ -50,7 +50,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 			}
 		}
 
-		//symsolve(m,da,Hprime,)
+		symsolve(m,da,H,b);
 
 
 		return;
