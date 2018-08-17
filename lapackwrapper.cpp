@@ -63,6 +63,10 @@ void diag(const int n, double** A, complex<double> * e, complex<double> ** u) {
 }
 
 void symsolve(const int n,  double * x, double ** A, double * y) {
+	if (n==1) {
+		x[0] = y[0]/A[0][0];
+		return;
+	}
 	int ncopy = n*1;
 	double * Acopy = new double[ncopy*ncopy];
 	double * b = new double[ncopy];

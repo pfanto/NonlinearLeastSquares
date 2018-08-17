@@ -1,7 +1,7 @@
 #include "LeastSquaresSolver.hpp"
 
-static const int NSTEP = 100;
-static const double STAT = 1.0e-5;
+static const int NSTEP = 500;
+static const double STAT = 1.0e-2;
 static const double lambda_initial = 0.001;
 void LeastSquaresSolver(const int n, const int m, const int npars, 
 	double * x, double * y, double * a, double (*model)(const double, const int, double *)) {
@@ -21,6 +21,8 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 	double * f = new double [n]; // function evaluation
 	double * b = new double [m]; // rhs Hdx = b
 	double * da = new double [m];
+
+	bool convergence = false; // convergence criterion
 
 	for (int it = 0; it < NSTEP; it++) {
 		// set up S and f
@@ -46,8 +48,25 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 				}
 			}
 		}
+		cout << "b = " << b[0] << endl;
+		cout << "H = " << H[0][0] << endl;
 
-		return;
+		// solve for da
+		symsolve(m,da,H,b);
+		PrintPointerArray("da = ",da,npars);
+		// convergence criterion
+		double absda = 0.0;
+			// update a
+		for (int k = 0; k < m; k++) {
+			absda += da[k]*da[k];
+			a[k] += da[k];
+		}
+		absda = sqrt(absda);
+		if (absda <= STAT) {
+			convergence = true;
+			break;
+		}
+		// continue
 
 	}
 	
@@ -58,6 +77,13 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 	delete [] f; 
 	delete [] b;
 	delete [] da;
+
+	if (convergence) {
+		cout << "converged!" << endl;
+		return;
+	}
+	cerr << "could not converge!" << endl;
+	throw exception();
 }
 
 
