@@ -1,6 +1,6 @@
 #include "LeastSquaresSolver.hpp"
 
-static const int NSTEP = 5;
+static const int NSTEP = 50;
 static const double STATIONARY_TOL = 1.0e-2;
 static const double lambda_initial = 0.001;
 void LeastSquaresSolver(const int n, const int m, const int npars, 
