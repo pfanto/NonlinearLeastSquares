@@ -30,7 +30,7 @@ int main(void) {
 	double s00 = Sensitivity(1.0,0,npars,a,(*func));
 	cout << "s00 = " << s00 << endl;
 
-	LeastSquaresSolverRegularized(n,m,npars,x,y,a,(*func), 500, 1.0e-10, 1.0);
+	LeastSquaresSolver(n,m,npars,x,y,a,(*func), 500, 1.0e-10, 1.0);
 	PrintPointerArray("a = ",a,npars);
 
 

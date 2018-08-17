@@ -40,7 +40,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 
 	for (int it = 0; it < NSTEP; it++) {
 		cout << "loss = " << loss << endl;
-		//cout << "lambda = " << lambda << endl;
+		cout << "lambda = " << lambda << endl;
 		// set up H and b
 		for (int k = 0; k < m; k++) {
 			b[k] = 0.0;
@@ -91,13 +91,15 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 
 		// convergence criterion
 
-		if(abs(loss_new-loss) <= STATIONARY_TOL && (loss_new <= loss)) {
+		if(abs(loss_new-loss) <= STATIONARY_TOL && (loss_new <= loss || lambda >= 1.0e12)) {
 			convergence = true;
+			loss_new = loss*1.0;
 			break;
 		}
 		
 		if (loss_new >= loss) {
 			lambda *= 10.0;
+			// don't update loss
 			for (int k = 0; k < m; k++) a[k] -= da[k];
 			// re-update f[i] and S
 			for (int i = 0; i < n; i++) {
@@ -108,11 +110,13 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 		}
 		else {
 			lambda /= 10.0;
+			// update loss
+			loss = loss_new*1.0;
 		}
 		
 
 		// update loss
-		loss = loss_new*1.0;
+
 		steps += 1;
 
 	}
@@ -127,6 +131,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 
 	if (convergence) {
 		cout << "converged!" << endl;
+		cout  << "loss = " << loss << endl;
 		cout << "steps = " << steps << endl;
 		return;
 	}
@@ -291,7 +296,7 @@ void LeastSquaresSolverRegularizedLevMarq (const int n, const int m, const int n
 	int steps = 0;
 	for (int it = 0; it < NSTEP; it++) {
 		cout << "loss = " << loss << endl;
-		//cout << "lambda = " << lambda << endl;
+		cout << "lambda = " << lambda << endl;
 		// set up H and b
 		for (int k = 0; k < m; k++) {
 			b[k] = 0.0;
@@ -343,7 +348,7 @@ void LeastSquaresSolverRegularizedLevMarq (const int n, const int m, const int n
 
 		// convergence criterion
 
-		if(abs(loss_new-loss) <= STATIONARY_TOL && (loss_new <= loss)) {
+		if(abs(loss_new-loss) <= STATIONARY_TOL && (loss_new <= loss || lambda >= 1.0e12)) {
 			convergence = true;
 			break;
 		}
@@ -360,12 +365,14 @@ void LeastSquaresSolverRegularizedLevMarq (const int n, const int m, const int n
 		}
 		else {
 			lambda /= 10.0;
+			// update loss
+			loss = loss_new*1.0;
 		}
 		
 		
 
 		// update loss
-		loss = loss_new*1.0;
+
 		steps += 1;
 
 	}
@@ -380,6 +387,7 @@ void LeastSquaresSolverRegularizedLevMarq (const int n, const int m, const int n
 
 	if (convergence) {
 		cout << "converged!" << endl;
+		cout << "loss = " << loss << endl;
 		cout << "steps = " << steps << endl;
 		return;
 	}
