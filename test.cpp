@@ -25,6 +25,9 @@ int main(void) {
 
 	double (*func) (const double, const int, double * ) = expdecay;
 
+	double s00 = Sensitivity(1.0,0,npars,a,(*func));
+	cout << "s00 = " << s00 << endl;
+
 
 
 	delete [] x;

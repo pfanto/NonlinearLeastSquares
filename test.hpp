@@ -9,6 +9,7 @@
 using namespace std;
 #include "functions.hpp"
 #include "writeout.hpp"
+#include "Sensitivity.hpp"
 
 int main(void);
 
