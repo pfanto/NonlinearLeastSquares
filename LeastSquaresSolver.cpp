@@ -2,6 +2,7 @@
 
 static const int NSTEP = 100;
 static const double STAT = 1.0e-2;
+static const double lambda_initial = 0.001;
 void LeastSquaresSolver(const int n, const int m, const int npars, 
 	double * x, double * y, double * a, double (*model)(const double, const int, double *)) {
 
@@ -15,6 +16,8 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 
 	double ** H = new double * [m];
 	for (int i = 0; i < m; i++) H[i] = new double [m];
+
+	double lambda = lambda_initial*1.0;
 
 	for (int it = 0; it < NSTEP; it++) {
 		for (int i = 0; i < n; i++) {
@@ -31,9 +34,13 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 					H[k][l] += S[i][k]*S[i][l];
 				}
 				H[l][k] = H[k][l]*1.0;
+				if (k==l) H[k][l] *= (1.0 + lambda);
 			}
 		}
+		
 		return;
+
+
 
 	}
 
