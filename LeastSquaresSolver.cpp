@@ -8,7 +8,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 	cout.setf(ios::scientific,ios::floatfield);
 	cout << setprecision(8);
 	//cout << NSTEP << " " << STATIONARY_TOL << " " << lambda_initial << endl;
-	//cout << "Least Squares Solver" << endl;
+	cout << "Least Squares Solver" << endl;
 	// memory allocation
 	double ** S = new double * [n]; // sensitivity matrix
 	for (int i = 0; i < n; i++) S[i] = new double [m];
@@ -33,11 +33,12 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 		for (int k = 0; k < m; k++) S[i][k] = Sensitivity(x[i],k,npars,a,(*model));
 		//cout << f[i] <<  endl;
 	}
-	//cout << "loss = " << loss << endl;
+
 
 	double lambda = lambda_initial*1.0;
 
 	for (int it = 0; it < NSTEP; it++) {
+		cout << "loss = " << loss << endl;
 		//cout << "lambda = " << lambda << endl;
 		// set up H and b
 		for (int k = 0; k < m; k++) {
@@ -89,7 +90,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 
 		// convergence criterion
 
-		if(abs(loss_new-loss) <= STATIONARY_TOL) {
+		if(abs(loss_new-loss) <= STATIONARY_TOL && (loss_new <= loss)) {
 			convergence = true;
 			break;
 		}
