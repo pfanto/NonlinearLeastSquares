@@ -9,6 +9,8 @@ using namespace std;
 
 #include "writeout.hpp"
 
+// derivative of model function wrt parameters
+
 double Sensitivity(const double xi, const int k, const int npars, double * a, double (*model) (const double, const int, double * ));
 
 #endif
