@@ -8,6 +8,7 @@
 //#include "writeout.h"
 using namespace std;
 
+// wraps LAPACK routines
 extern "C" {
 	extern void dgeev(char* jobvl, char* jobvr, int* n , double * a, int* lda,
 		double * wr, double * wi, double * vl , int * ldvl, double * vr, int * ldvr, double * work, 
