@@ -1,6 +1,6 @@
 #include "LeastSquaresSolver.hpp"
 
-// pure LM
+// Levenberg-Marquardt solver
 void LeastSquaresSolver(const int n, const int m, const int npars, 
 	double * x, double * y, double * a, double (*model)(const double, const int, double *),
 	const int NSTEP, const double STATIONARY_TOL, const double lambda_initial) {
@@ -131,7 +131,7 @@ void LeastSquaresSolver(const int n, const int m, const int npars,
 	throw exception();
 }
 
-// nonlinear least-squares, no LM
+// nonlinear least-squares, no Levenberg-Marquardt
 void LeastSquaresSolverRegularized (const int n, const int m, const int npars, 
 	double * x, double * y, double * a, double (*model)(const double, const int, double *),
 	const int NSTEP, const double STATIONARY_TOL, const double mu) {
